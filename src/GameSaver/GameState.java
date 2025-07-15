@@ -11,7 +11,7 @@ public class GameState implements Serializable {
     long points;
     List<String> achievements;
     long played;
-    Inventory inventory;
+    transient Inventory inventory;
 
     GameState(){
 
