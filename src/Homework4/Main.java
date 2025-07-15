@@ -1,5 +1,4 @@
 package Homework4;
-import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -7,8 +6,6 @@ public class Main {
             res_new.log("THIS IS A NEW ROW - 1");
             res_new.log("THIS IS A NEW ROW - 2");
             res_new.log("THIS IS A NEW ROW - 3");
-        } catch (IOException e){
-            System.out.println("Bad thing happened");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

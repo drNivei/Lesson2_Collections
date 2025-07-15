@@ -13,7 +13,6 @@ public class FileLogger implements AutoCloseable{
         try (FileWriter a = new FileWriter(file.getPath(), true)) {
             Instant timestamp = Instant.now();
             a.write(timestamp + " " + str + System.lineSeparator());
-            a.close();
             System.out.println("Row added successfully to " + file.getPath());
         } catch (IOException e) {
             System.err.println("Error adding row to file: " + e.getMessage());
