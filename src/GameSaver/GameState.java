@@ -5,7 +5,7 @@ import java.util.List;
 
 public class GameState implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 2L;
     String player_Name;
     int lvl;
     long points;

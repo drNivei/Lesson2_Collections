@@ -22,18 +22,18 @@ public class Main {
             inventory.addItem("Gold coin", 100);
 
         GameState gameState = new GameState(player_Name, lvl, points, achievements, played, inventory);
-        //Standart Flow
-        serializeObject("MegaSave", gameState, 1);
-        GameState gameState1 = (GameState) deserializeObject("MegaSave", 1);
-        System.out.println(gameState1 + "\n");
 
+        //serializeObject("MegaSave", gameState, 1);
+        GameState gameState1 = (GameState) deserializeObject("MegaSave", 1);
+        // System.out.println(gameState1 + "\n");
+/*
         //Multiple cell saving.
         serializeObject("MegaSave", gameState, 2);
         System.out.println("\n");
 
         //Corrupted file
         GameState gameState2 = (GameState) deserializeObject("MegaSave", 3);
-        System.out.println(gameState2 + "\n");
+        System.out.println(gameState2 + "\n");*/
 
     }
 
@@ -82,6 +82,8 @@ public class Main {
             throw new RuntimeException(e);
         } catch (StreamCorruptedException e){
             System.out.println("Файл поврежден! Загрузка невозможна.");
+        } catch (InvalidClassException e) {
+            System.out.println("Версия устарела!");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (ClassNotFoundException e) {
