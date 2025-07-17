@@ -1,13 +1,20 @@
 package GameSaver;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Inventory {
+public class Inventory implements Serializable {
     Map<String, Integer> inventory = new HashMap<>();
 
     Inventory(){
+    }
 
+    @Override
+    public String toString() {
+        return "Inventory{" +
+                "inventory=" + inventory +
+                '}';
     }
 
     public void addItem(String name, int amount){

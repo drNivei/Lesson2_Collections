@@ -4,8 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static GameSaver.XORCipher.decrypt;
-import static GameSaver.XORCipher.encrypt;
+import static GameSaver.XORCipher.encryptDecrypt;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,15 +22,19 @@ public class Main {
             inventory.addItem("Gold coin", 100);
 
         GameState gameState = new GameState(player_Name, lvl, points, achievements, played, inventory);
-
+        //Standart Flow
         serializeObject("MegaSave", gameState, 1);
-        encryptSave("MegaSave", 1);
-        // GameState gameState1 = (GameState) deserializeObject("MegaSave", 1);
-        // System.out.println(gameState1);
+        GameState gameState1 = (GameState) deserializeObject("MegaSave", 1);
+        System.out.println(gameState1 + "\n");
 
-        //serializeObject("MegaSave", gameState, 2);
-        //GameState gameState2 = (GameState) deserializeObject("MegaSave", 2);
-        //System.out.println(gameState2);
+        //Multiple cell saving.
+        serializeObject("MegaSave", gameState, 2);
+        System.out.println("\n");
+
+        //Corrupted file
+        GameState gameState2 = (GameState) deserializeObject("MegaSave", 3);
+        System.out.println(gameState2 + "\n");
+
     }
 
     public static void serializeObject(String fileName, Object Person, Integer saveCell) {
@@ -39,52 +42,42 @@ public class Main {
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
 
             out.writeObject(Person);
-            System.out.println("Object successfully serialized!");
+            System.out.println("Save file successfully created!");
 
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (StreamCorruptedException e) {
-            System.out.println("Файл поврежден! Загрузка невозможна.");
+            System.out.println("Файл поврежден! Сохранение невозможно.");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-    public static void encryptSave(String fileName, Integer saveCell) {
-        try (FileOutputStream fileOut = new FileOutputStream(fileName + saveCell.toString() + ".save", false);
-             FileInputStream fileIn = new FileInputStream(fileName + saveCell.toString() + ".save")) {
 
-            String key = "KEY1";
-            byte[] str = fileIn.readAllBytes();
+            String key = "KEY123";
             byte[] keyBytes = key.getBytes();
-            byte[] encr = encrypt(str, keyBytes);
-            fileOut.write(encr);
-            System.out.println("Encrypted!");
+            encryptDecrypt(fileName + saveCell.toString() + ".save", fileName + saveCell.toString() + ".encr", keyBytes);
+            System.out.println("Save file successfully encrypted!");
+            File deleteMe = new File(fileName + saveCell.toString() + ".save");
+            deleteMe.delete();
 
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (StreamCorruptedException e){
-            System.out.println("Файл поврежден! Загрузка невозможна.");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 
 
     public static Object deserializeObject(String fileName,Integer saveCell) {
         Object person = null;
-        try (FileOutputStream fileOut = new FileOutputStream(fileName + saveCell.toString() + ".save");
-             FileInputStream fileIn = new FileInputStream(fileName + saveCell.toString() + ".save");
-             ObjectInputStream in = new ObjectInputStream(fileIn)) {
 
-            String key = "KEY1";
-            byte[] str = fileIn.readAllBytes();
-            byte[] keyBytes = key.getBytes();
-            byte[] decr = decrypt(str, keyBytes);
-            fileOut.write(decr);
-            System.out.println("Decrypted!");
+        String key = "KEY123";
+        byte[] keyBytes = key.getBytes();
+        encryptDecrypt(fileName + saveCell.toString() + ".encr", fileName + saveCell.toString() + ".save", keyBytes);
+        System.out.println("Save file successfully decrypted!");
+        File deleteMe = new File(fileName + saveCell.toString() + ".encr");
+        deleteMe.delete();
+
+        try (FileInputStream fileIn = new FileInputStream(fileName + saveCell.toString() + ".save");
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
 
             person = in.readObject();
             System.out.println("Deserialization completed!");
+
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         } catch (StreamCorruptedException e){
