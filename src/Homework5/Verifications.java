@@ -74,5 +74,16 @@ public class Verifications {
         return list;
     }
 
+    public Predicate<String> newPredicateMe (Predicate<String> predicate, Function<String, String> function){
+        Predicate<String> newPredicate;
+        if(predicate.test("TRUE")){
+            newPredicate = str -> str.equals(function.apply("TRUE"));
+        }else{
+            newPredicate = str -> str.equals(function.apply("FALSE"));
+        }
+        return newPredicate;
+    }
+
+
 
 }

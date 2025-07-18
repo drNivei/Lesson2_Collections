@@ -1,13 +1,12 @@
 package Homework5;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
+import static java.util.Comparator.comparingInt;
 
 public class Main {
     public static void main(String[] args) {
@@ -81,8 +80,38 @@ public class Main {
         Supplier<Integer> randomNumberSupplier = () -> new Random().nextInt(100);
         System.out.println(randomNumberSupplier.get());
         System.out.println();
+
         System.out.println("Task 11: Создайте метод, который принимает Supplier<List<String>> и возвращает список из 5 элементов, сгенерированных поставщиком.");
         Supplier<List<String>> newRandomString = () -> Collections.singletonList("Sasha"+ new Random().nextInt(100));
         System.out.println(ver.generateRandomString(newRandomString));
+
+        System.out.println("Комбинированные задания");
+        System.out.println("Task 12: Напишите метод, принимающий Function и Predicate, и возвращающий новый Predicate.");
+        Predicate<String> srt11 = str11 -> str11.startsWith("T");
+        Function<String, String> fn11 = String::toLowerCase;
+        Predicate<String> srt11_new = ver.newPredicateMe(srt11, fn11);
+        System.out.println(srt11_new.test("true"));
+        System.out.println(srt11_new.test("other"));
+        System.out.println();
+
+        System.out.println("Task 13: Создайте Comparator с использованием Function для сортировки объектов по определенному полю.");
+        List<Person> personList = new ArrayList<>();
+        personList.add(new Person("B", 3, "C"));
+        personList.add(new Person("C", 2, "D"));
+        personList.add(new Person("A", 1, "N"));
+        personList.add(new Person("D", 4, "G"));
+
+        personList.sort(Comparator.comparing(p -> p.name));
+        System.out.println(personList);
+        personList.sort((p1, p2) -> p2.name.compareTo(p1.name));
+        System.out.println(personList);
+
+        personList.sort(Comparator.comparing(p -> p.age));
+        System.out.println(personList);
+        personList.sort((p1, p2) -> p2.age.compareTo(p1.age));
+        System.out.println(personList);
+
+
+
     }
 }
