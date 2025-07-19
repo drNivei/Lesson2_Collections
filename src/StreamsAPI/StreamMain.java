@@ -13,6 +13,6 @@ public class StreamMain {
         names.add("Pasha");
         System.out.println(names);
 
-        System.out.println(names.stream().filter(element -> element.startsWith("M")).peek(System.out::println).collect(Collectors.toList()));
+        System.out.println(names.stream().filter(element -> element.startsWith("M")).map(String::toUpperCase).peek(System.out::println).collect(Collectors.toList()));
     }
 }
