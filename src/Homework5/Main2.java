@@ -1,9 +1,6 @@
 package Homework5;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -124,7 +121,10 @@ public class Main2 {
         System.out.println();
 
         System.out.println("TASK 14: Преобразуйте массив строк в Stream, отсортируйте и соберите в список.");
-
+        String[] listStr5 = {"apple", "banana", "cherry", "ananas"};
+        Stream<String> stringStream = Arrays.stream(listStr5);
+        listStr5 = stringStream.sorted().collect(Collectors.toList()).toArray(new String[0]);
+        System.out.println(Arrays.toString(listStr5));
 
 
 
